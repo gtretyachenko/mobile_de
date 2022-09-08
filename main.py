@@ -77,7 +77,6 @@ while params['page'] <= pages:
             item_name = ii.find('div', class_='vehicle-prices').contents[0].text
             item_name = item_name.replace(chr(160), '')
             res[count - 1].append(int(item_name.split('€')[0]))
-            # res[count - 1].append(item_name.split('€')[1][2:-1])
             if len(ii.find('div', class_='vehicle-prices').contents) > 1:
                 item_name = ii.find('div', class_='vehicle-prices').contents[1].text
                 item_name = item_name.replace(chr(160), '')
@@ -85,6 +84,7 @@ while params['page'] <= pages:
             else:
                 res[count - 1].append(int(item_name.split('€')[0]))
             link_to_entry = 'https://www.mobile.de' + i.find('a').get('href')
+            res[count - 1].append(link_to_entry)
             response = requests.get(link_to_entry, params=params, headers=headers)
             soup = BeautifulSoup(response.text, 'lxml')
             items_items = soup.find('div', class_='vip-details-block u-margin-bottom-18')
@@ -108,10 +108,10 @@ while params['page'] <= pages:
     params['page'] += 1
 
 myData = res
-# myData2 = res_res
+myData2 = res_res
 with open('C:/Users/Admin/PycharmProjects/mobile_de/data_result.csv', 'w', newline='', encoding='utf-8') as csvfile:
     fieldnames = ['NumPage', 'NumLot', 'MarkerNew', 'LotName', 'ShopRating', 'CountReviews',
-                  'Born(mm/yyyy)', 'ODO km', 'PriceEur', 'NetPriceEur']
+                  'Born(mm/yyyy)', 'ODO km', 'PriceEur', 'NetPriceEur', 'href']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     writer.writeheader()
     writer = csv.writer(csvfile)
@@ -119,9 +119,9 @@ with open('C:/Users/Admin/PycharmProjects/mobile_de/data_result.csv', 'w', newli
     print("Writing complete")
 
 with open('C:/Users/Admin/PycharmProjects/mobile_de/data_result2.csv', 'w', newline='', encoding='utf-8') as csvfile:
-    fieldnames = ['Состояние', 'Категория', 'Год выпуска', 'Коробка передач', 'Топливо', 'Пробег',
-        'Мощность', 'Объем двигателя', 'Кол-во мест', 'Кол-во дверей', 'Класс эко', 'Кол-во влад',
-                  'Общий осмотр', 'Цвет', 'Состояние2', 'Категория', 'Номер ТС', 'Датчики парковки', 'Дизаин салон']
+    fieldnames = ['Quality', 'Category', 'YearMade', 'Transmition', 'Fuel', 'Distance',
+        'Power', 'ValueEngene', 'CountSeats', 'CountDoor', 'EKO', 'CountOwen',
+                  'QualityView', 'Collor', 'Quality2', 'Category2', 'NummVechiles', 'MarkerParcking', 'DisineIntro']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     writer.writeheader()
     writer = csv.writer(csvfile)
